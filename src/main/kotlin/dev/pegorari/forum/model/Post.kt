@@ -11,6 +11,5 @@ data class Post(
     val course: Course,
     val author: User,
     val status: PostStatus = PostStatus.NO_ANSWER,
-    val responses : List<Response> = ArrayList()
-) {
-}
+    val responses: List<Response> = ArrayList()
+)
