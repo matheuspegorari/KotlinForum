@@ -4,7 +4,7 @@ import dev.pegorari.forum.enums.PostStatus
 import java.time.Instant
 
 data class Post(
-    val id: Long? = null,
+    var id: Long? = null,
     val title: String,
     val message: String,
     val createdAt: Instant = Instant.now(),
@@ -12,4 +12,6 @@ data class Post(
     val author: User,
     val status: PostStatus = PostStatus.NO_ANSWER,
     val responses: List<Response> = ArrayList()
+
+
 )
