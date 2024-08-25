@@ -5,12 +5,12 @@ import java.time.Instant
 
 data class Post(
     var id: Long? = null,
-    val title: String,
-    val message: String,
+    var title: String,
+    var message: String,
     val createdAt: Instant = Instant.now(),
     val course: Course,
     val author: User,
-    val status: PostStatus = PostStatus.NO_ANSWER,
+    var status: PostStatus = PostStatus.NO_ANSWER,
     val responses: List<Response> = ArrayList()
 
 

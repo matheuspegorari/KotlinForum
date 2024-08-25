@@ -2,6 +2,7 @@ package dev.pegorari.forum.service
 
 import dev.pegorari.forum.dto.RequestPostDTO
 import dev.pegorari.forum.dto.ResponsePostDTO
+import dev.pegorari.forum.dto.UpdatePostDTO
 import dev.pegorari.forum.mapper.RequestPostMapper
 import dev.pegorari.forum.mapper.ResponsePostMapper
 import dev.pegorari.forum.model.Post
@@ -21,19 +22,30 @@ class PostService(
     }
 
     fun findByID(id: Long): ResponsePostDTO? {
-        val post = this.posts.find { it.id == id }
+        val post = getPostById(id) ?: return null
 
-        if (post == null) {
-            return null
-        }
         return responsePostMapper.map(post)
     }
 
+
     fun create(dto: RequestPostDTO) {
         val newPost = requestPostMapper.map(dto)
-        newPost.id = posts.size.toLong() +1
+        newPost.id = posts.size.toLong() + 1
 
         posts = posts.plus(newPost)
+    }
+
+    fun update(id: Long, dto: UpdatePostDTO) {
+        val post = getPostById(id) ?: return
+
+        post.title = dto.title
+        post.message = dto.message
+
+    }
+
+    private fun getPostById(id: Long): Post? {
+        val post = this.posts.find { it.id == id }
+        return post
     }
 
 }
