@@ -22,38 +22,38 @@ class PostService(
     }
 
     fun findByID(id: Long): ResponsePostDTO? {
-        val post = getPostById(id) ?: return null
+        val post = getPostById(id)
 
         return responsePostMapper.map(post)
     }
 
 
-    fun create(dto: RequestPostDTO) {
+    fun create(dto: RequestPostDTO): ResponsePostDTO {
         val newPost = requestPostMapper.map(dto)
         newPost.id = posts.size.toLong() + 1
 
         posts = posts.plus(newPost)
+        return responsePostMapper.map(newPost)
     }
 
-    fun update(id: Long, dto: UpdatePostDTO) {
-        val post = getPostById(id) ?: return
-
+    fun update(id: Long, dto: UpdatePostDTO): ResponsePostDTO? {
+        val post = getPostById(id)
         post.title = dto.title
         post.message = dto.message
 
+        return responsePostMapper.map(post)
     }
 
     fun delete(id: Long) {
-        val post = this.posts.find { it.id == id } ?: return
-        this.posts.minus(post)
-
+        val post = getPostById(id)
+        this.posts = posts.minus(post)
     }
 
-    private fun getPostById(id: Long): Post? {
-        val post = this.posts.find { it.id == id } ?: return null
+    private fun getPostById(id: Long): Post {
+        val post = this.posts.find { it.id == id }
+            ?: throw IllegalArgumentException("Post not found")
         return post
     }
-
 
 
 }
