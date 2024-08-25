@@ -32,5 +32,10 @@ class PostController(private val service: PostService) {
         service.update(id, dto)
     }
 
+    @DeleteMapping("/{id}")
+    fun delete(@PathVariable id: Long) {
+        service.delete(id)
+    }
+
 
 }

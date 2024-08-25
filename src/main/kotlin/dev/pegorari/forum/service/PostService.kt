@@ -43,9 +43,17 @@ class PostService(
 
     }
 
+    fun delete(id: Long) {
+        val post = this.posts.find { it.id == id } ?: return
+        this.posts.minus(post)
+
+    }
+
     private fun getPostById(id: Long): Post? {
-        val post = this.posts.find { it.id == id }
+        val post = this.posts.find { it.id == id } ?: return null
         return post
     }
+
+
 
 }
