@@ -3,6 +3,7 @@ package dev.pegorari.forum.controller
 import dev.pegorari.forum.dto.RequestPostDTO
 import dev.pegorari.forum.dto.ResponsePostDTO
 import dev.pegorari.forum.service.PostService
+import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -20,7 +21,7 @@ class PostController(private val service: PostService) {
 }
 
     @PostMapping
-    fun create(@RequestBody dto: RequestPostDTO) {
+    fun create(@RequestBody @Valid dto: RequestPostDTO) {
         service.create(dto)
     }
 
