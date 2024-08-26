@@ -3,6 +3,7 @@ package dev.pegorari.forum.service
 import dev.pegorari.forum.dto.RequestPostDTO
 import dev.pegorari.forum.dto.ResponsePostDTO
 import dev.pegorari.forum.dto.UpdatePostDTO
+import dev.pegorari.forum.exception.NotFoundException
 import dev.pegorari.forum.mapper.RequestPostMapper
 import dev.pegorari.forum.mapper.ResponsePostMapper
 import dev.pegorari.forum.model.Post
@@ -12,7 +13,8 @@ import org.springframework.stereotype.Service
 class PostService(
     private var posts: List<Post> = ArrayList(),
     private val requestPostMapper: RequestPostMapper,
-    private val responsePostMapper: ResponsePostMapper
+    private val responsePostMapper: ResponsePostMapper,
+    private val notFoundMessage: String = "No post found for the given ID"
 
 ) {
     fun listPosts(): List<ResponsePostDTO>? {
@@ -51,9 +53,7 @@ class PostService(
 
     private fun getPostById(id: Long): Post {
         val post = this.posts.find { it.id == id }
-            ?: throw IllegalArgumentException("Post not found")
+            ?: throw NotFoundException(notFoundMessage)
         return post
     }
-
-
 }
