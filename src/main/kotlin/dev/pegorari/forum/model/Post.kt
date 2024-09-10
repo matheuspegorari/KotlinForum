@@ -7,7 +7,7 @@ import java.time.Instant
 @Entity
 data class Post(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null,
+    val id: Long? = null,
     var title: String,
     var message: String,
     val createdAt: Instant = Instant.now(),

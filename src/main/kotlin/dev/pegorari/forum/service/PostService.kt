@@ -7,34 +7,31 @@ import dev.pegorari.forum.exception.NotFoundException
 import dev.pegorari.forum.mapper.RequestPostMapper
 import dev.pegorari.forum.mapper.ResponsePostMapper
 import dev.pegorari.forum.model.Post
+import dev.pegorari.forum.repository.PostRepository
 import org.springframework.stereotype.Service
 
 @Service
 class PostService(
-    private var posts: List<Post> = ArrayList(),
+    private var repository: PostRepository,
     private val requestPostMapper: RequestPostMapper,
-    private val responsePostMapper: ResponsePostMapper,
-    private val notFoundMessage: String = "No post found for the given ID"
+    private val responsePostMapper: ResponsePostMapper
 
 ) {
     fun listPosts(): List<ResponsePostDTO>? {
-        return this.posts.map { p ->
+        return repository.findAll().map { p ->
             responsePostMapper.map(p)
         }
     }
 
     fun findByID(id: Long): ResponsePostDTO? {
         val post = getPostById(id)
-
         return responsePostMapper.map(post)
     }
 
 
     fun create(dto: RequestPostDTO): ResponsePostDTO {
         val newPost = requestPostMapper.map(dto)
-        newPost.id = posts.size.toLong() + 1
-
-        posts = posts.plus(newPost)
+        repository.save(newPost)
         return responsePostMapper.map(newPost)
     }
 
@@ -47,13 +44,13 @@ class PostService(
     }
 
     fun delete(id: Long) {
-        val post = getPostById(id)
-        this.posts = posts.minus(post)
+        repository.deleteById(id)
     }
 
     private fun getPostById(id: Long): Post {
-        val post = this.posts.find { it.id == id }
-            ?: throw NotFoundException(notFoundMessage)
+        val post = repository.findById(id).orElseThrow {
+            NotFoundException("Post with ID $id not found")
+        }
         return post
     }
 }

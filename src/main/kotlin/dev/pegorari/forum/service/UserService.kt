@@ -1,16 +1,16 @@
 package dev.pegorari.forum.service
 
+import dev.pegorari.forum.exception.NotFoundException
 import dev.pegorari.forum.model.User
+import dev.pegorari.forum.repository.UserRepository
 import org.springframework.stereotype.Service
 
 @Service
-class UserService(private var users: List<User>) {
-    init {
-        val user = User(1, "Matheus", "pegorari@gmail.com")
-        this.users = listOf(user)
-    }
+class UserService(private val repository: UserRepository) {
 
     fun findById(id: Long): User {
-        return users.find { it.id == id }!!
+        return repository.findById(id).orElseThrow {
+            NotFoundException("User with ID $id not found")
+        }
     }
 }

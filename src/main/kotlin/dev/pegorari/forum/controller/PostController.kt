@@ -4,6 +4,7 @@ import dev.pegorari.forum.dto.RequestPostDTO
 import dev.pegorari.forum.dto.ResponsePostDTO
 import dev.pegorari.forum.dto.UpdatePostDTO
 import dev.pegorari.forum.service.PostService
+import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -25,6 +26,7 @@ class PostController(private val service: PostService) {
     }
 
     @PostMapping
+    @Transactional
     fun create(
         @RequestBody @Valid dto: RequestPostDTO,
         uriBuilder: UriComponentsBuilder
@@ -36,6 +38,7 @@ class PostController(private val service: PostService) {
     }
 
     @PutMapping("/{id}")
+    @Transactional
     fun update(@PathVariable id: Long, @RequestBody @Valid dto: UpdatePostDTO)
     : ResponseEntity<ResponsePostDTO> {
         val updatedPost = service.update(id, dto)
@@ -43,6 +46,7 @@ class PostController(private val service: PostService) {
     }
 
     @DeleteMapping("/{id}")
+    @Transactional
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun delete(@PathVariable id: Long) {
         service.delete(id)
