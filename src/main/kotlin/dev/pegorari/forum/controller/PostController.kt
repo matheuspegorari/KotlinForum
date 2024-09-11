@@ -16,8 +16,8 @@ import org.springframework.web.util.UriComponentsBuilder
 class PostController(private val service: PostService) {
 
     @GetMapping
-    fun listPosts(): List<ResponsePostDTO>? {
-        return service.listPosts()
+    fun allPosts(@RequestParam(required = false) courseName: String?): List<ResponsePostDTO>? {
+        return service.listPosts(courseName)
     }
 
     @GetMapping("/{id}")
@@ -40,7 +40,7 @@ class PostController(private val service: PostService) {
     @PutMapping("/{id}")
     @Transactional
     fun update(@PathVariable id: Long, @RequestBody @Valid dto: UpdatePostDTO)
-    : ResponseEntity<ResponsePostDTO> {
+            : ResponseEntity<ResponsePostDTO> {
         val updatedPost = service.update(id, dto)
         return ResponseEntity.ok(updatedPost)
     }

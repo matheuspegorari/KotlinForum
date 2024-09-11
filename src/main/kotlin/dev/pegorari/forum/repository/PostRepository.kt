@@ -4,4 +4,5 @@ import dev.pegorari.forum.model.Post
 import org.springframework.data.repository.CrudRepository
 
 interface PostRepository:CrudRepository <Post, Long> {
+    fun findByCourseName(courseName: String): List<Post>
 }

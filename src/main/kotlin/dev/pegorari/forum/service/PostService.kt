@@ -17,8 +17,14 @@ class PostService(
     private val responsePostMapper: ResponsePostMapper
 
 ) {
-    fun listPosts(): List<ResponsePostDTO>? {
-        return repository.findAll().map { p ->
+    fun listPosts(courseName: String?): List<ResponsePostDTO>? {
+        val posts = if (courseName.isNullOrBlank()) {
+            repository.findAll()
+        } else {
+            repository.findByCourseName(courseName)
+        }
+
+        return posts.map { p ->
             responsePostMapper.map(p)
         }
     }
