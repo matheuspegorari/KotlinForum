@@ -8,6 +8,8 @@ import dev.pegorari.forum.mapper.RequestPostMapper
 import dev.pegorari.forum.mapper.ResponsePostMapper
 import dev.pegorari.forum.model.Post
 import dev.pegorari.forum.repository.PostRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
@@ -17,16 +19,13 @@ class PostService(
     private val responsePostMapper: ResponsePostMapper
 
 ) {
-    fun listPosts(courseName: String?): List<ResponsePostDTO>? {
-        val posts = if (courseName.isNullOrBlank()) {
-            repository.findAll()
-        } else {
-            repository.findByCourseName(courseName)
+    fun listPosts(courseName: String?, pagination: Pageable): Page<ResponsePostDTO>? {
+        val posts = when {
+            courseName.isNullOrBlank() -> repository.findAll(pagination)
+            else -> repository.findByCourseName(courseName, pagination)
         }
 
-        return posts.map { p ->
-            responsePostMapper.map(p)
-        }
+        return posts.map(responsePostMapper::map)
     }
 
     fun findByID(id: Long): ResponsePostDTO? {
