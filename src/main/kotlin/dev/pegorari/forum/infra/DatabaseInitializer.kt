@@ -1,7 +1,7 @@
 package dev.pegorari.forum.infra
 
 import dev.pegorari.forum.model.Course
-import dev.pegorari.forum.model.User
+import dev.pegorari.forum.model.Users
 import dev.pegorari.forum.repository.CourseRepository
 import dev.pegorari.forum.repository.UserRepository
 import jakarta.transaction.Transactional
@@ -25,7 +25,8 @@ class DatabaseInitializer(
                 println("TEST_DATA: Course data inserted as TEST_MODE is true")
             }
             if (uRepository.count() == 0L) {
-                val uEntity = User(1, "Matheus", "pegorari@gmail.com")
+                val password = "\$2a\$12\$WY2I1okNbHBQwlFwjlXkQuFSSRqkN64.y.RMAiMeU5zkbeJ0BxVfK" // 123456
+                val uEntity = Users(1, "Matheus", "pegorari@gmail.com", password)
                 uRepository.save(uEntity)
                 println("TEST_DATA: User data inserted as TEST_MODE is true")
             }

@@ -1,7 +1,9 @@
 package dev.pegorari.forum.repository
 
-import dev.pegorari.forum.model.User
-import org.springframework.data.repository.CrudRepository
+import dev.pegorari.forum.model.Users
+import org.springframework.data.jpa.repository.JpaRepository
 
-interface UserRepository : CrudRepository<User, Long> {
+
+interface UserRepository : JpaRepository<Users, Long> {
+    fun findByEmail(courseName: String?): Users?
 }

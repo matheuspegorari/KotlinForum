@@ -14,7 +14,7 @@ data class Post(
     @ManyToOne
     val course: Course,
     @ManyToOne
-    val author: User,
+    val author: Users,
     @Enumerated(EnumType.STRING)
     var status: PostStatus = PostStatus.NO_ANSWER,
     @OneToMany(mappedBy = "post")
