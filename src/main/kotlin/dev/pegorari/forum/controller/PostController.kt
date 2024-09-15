@@ -3,6 +3,7 @@ package dev.pegorari.forum.controller
 import dev.pegorari.forum.dto.RequestPostDTO
 import dev.pegorari.forum.dto.ResponsePostDTO
 import dev.pegorari.forum.dto.UpdatePostDTO
+import dev.pegorari.forum.dto.query.PostByCategory
 import dev.pegorari.forum.service.PostService
 import jakarta.transaction.Transactional
 import jakarta.validation.Valid
@@ -64,5 +65,10 @@ class PostController(private val service: PostService) {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun delete(@PathVariable id: Long) {
         service.delete(id)
+    }
+
+    @GetMapping("/report")
+    fun report(): List<PostByCategory> {
+        return service.report()
     }
 }

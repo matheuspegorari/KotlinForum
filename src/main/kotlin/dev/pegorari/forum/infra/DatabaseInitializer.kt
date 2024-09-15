@@ -20,7 +20,7 @@ class DatabaseInitializer(
     override fun run(vararg args: String?) {
         if (testMode == "true") {
             if (cRepository.count() == 0L) {
-                val cEntity = Course(1, "Kotlin", "PROGRAMAÇÃO")
+                val cEntity = Course(2, "HTML", "UI/UX")
                 cRepository.save(cEntity)
                 println("TEST_DATA: Course data inserted as TEST_MODE is true")
             }

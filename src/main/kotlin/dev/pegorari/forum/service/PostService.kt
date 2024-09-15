@@ -3,6 +3,7 @@ package dev.pegorari.forum.service
 import dev.pegorari.forum.dto.RequestPostDTO
 import dev.pegorari.forum.dto.ResponsePostDTO
 import dev.pegorari.forum.dto.UpdatePostDTO
+import dev.pegorari.forum.dto.query.PostByCategory
 import dev.pegorari.forum.exception.NotFoundException
 import dev.pegorari.forum.mapper.RequestPostMapper
 import dev.pegorari.forum.mapper.ResponsePostMapper
@@ -57,5 +58,9 @@ class PostService(
             NotFoundException("Post with ID $id not found")
         }
         return post
+    }
+
+    fun report(): List<PostByCategory> {
+        return repository.report()
     }
 }
