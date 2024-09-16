@@ -4,7 +4,7 @@ import dev.pegorari.forum.model.Users
 import org.springframework.security.core.userdetails.UserDetails
 
 class UserDetail (private val user : Users) : UserDetails {
-    override fun getAuthorities() = null
+    override fun getAuthorities() = user.role
 
     override fun getPassword() = user.password
 
